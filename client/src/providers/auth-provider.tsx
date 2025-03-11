@@ -1,4 +1,10 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 import LocalStorage, { LSKeys } from "~/libs/ls";
 import { IUser } from "~/types/user";
 
@@ -6,6 +12,7 @@ interface IAuthContext {
   user: IUser | null;
   setUser: (user: IUser) => void;
   isAuthenticated: boolean;
+  logout: () => void;
 }
 
 const AuthContext = createContext<null | IAuthContext>(null);
@@ -20,9 +27,14 @@ export function AuthProvider({ children }: IAuthProviderProps) {
   const [user, setUser] = useState<IUser | null>(userStorage.get());
   const isAuthenticated = !!user;
 
+  const logout = useCallback(() => {
+    setUser(null);
+    userStorage.remove();
+  }, []);
+
   const value = useMemo(
-    () => ({ user, setUser, isAuthenticated }),
-    [user, isAuthenticated]
+    () => ({ user, setUser, isAuthenticated, logout }),
+    [user, isAuthenticated, logout]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

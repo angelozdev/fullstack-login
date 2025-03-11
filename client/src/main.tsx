@@ -8,13 +8,13 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 // components
 import { ProtectedRoute, RedirectIfAuthenticated } from "./components";
+import LoginSkeleton from "./pages/login/login-skeleton";
+import { AuthProvider } from "./providers/auth-provider";
 
 // utils
 import { css } from "./styled-system/css";
 import RoutesList from "./constants/routes";
-import { LoginSkeleton } from "./pages/login";
 import { queryClient } from "./libs/react-query";
-import { AuthProvider } from "./providers/auth-provider";
 
 const HomePage = lazy(() => import("./pages/home/home"));
 const LoginPage = lazy(() => import("./pages/login/login"));
@@ -27,16 +27,7 @@ root.render(
     <AuthProvider>
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
-        <div
-          className={css({
-            borderRadius: "2xl",
-            boxShadow: "sm",
-            maxW: "500px",
-            mx: "auto",
-            my: 8,
-            p: 4,
-          })}
-        >
+        <div className={css({ maxW: "500px", mx: "auto" })}>
           <BrowserRouter>
             <Routes>
               <Route

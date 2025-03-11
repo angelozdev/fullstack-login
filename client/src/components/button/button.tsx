@@ -10,6 +10,7 @@ function Button({ children, className, ...rest }: IButtonProps) {
       className={cx(
         className,
         css({
+          w: "full",
           height: 10,
           display: "flex",
           alignItems: "center",

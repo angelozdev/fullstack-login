@@ -23,7 +23,7 @@ async function login(_: ILoginParams) {
     },
     password: "23derd*334",
     phone: "+1 (936) 451-3590",
-    picture: "http://placehold.it/32x32",
+    picture: "https://i.pravatar.cc/500?img=1",
   };
 
   return Promise.resolve({ data: user });
