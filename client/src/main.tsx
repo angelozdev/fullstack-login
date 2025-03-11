@@ -10,6 +10,7 @@ import { ProtectedRoute } from "./components";
 // utils
 import { css } from "./styled-system/css";
 import RoutesList from "./constants/routes";
+import { LoginSkeleton } from "./pages/login";
 
 const HomePage = lazy(() => import("./pages/home/home"));
 const LoginPage = lazy(() => import("./pages/login/login"));
@@ -42,7 +43,7 @@ createRoot($root).render(
           <Route
             path={RoutesList.LOGIN}
             element={
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<LoginSkeleton />}>
                 <LoginPage />
               </Suspense>
             }
