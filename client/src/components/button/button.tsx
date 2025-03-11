@@ -20,9 +20,15 @@ function Button({ children, className, ...rest }: IButtonProps) {
           cursor: "pointer",
           fontWeight: "semibold",
           transition: "all 0.2s",
-          "&:hover": {
+          "&:not(:disabled):hover": {
             bg: "blue.600",
             boxShadow: "md",
+          },
+          "&:disabled": {
+            bg: "gray.300",
+            color: "gray.500",
+            cursor: "not-allowed",
+            opacity: 0.5,
           },
         })
       )}

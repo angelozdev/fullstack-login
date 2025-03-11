@@ -1,6 +1,7 @@
 import React from "react";
 import { Navigate } from "react-router";
 import RoutesList from "~/constants/routes";
+import { useAuth } from "~/providers/auth-provider";
 
 interface IProtectedRouteProps {
   element: React.ReactNode;
@@ -9,9 +10,9 @@ interface IProtectedRouteProps {
 
 function ProtectedRoute(props: IProtectedRouteProps) {
   const { element, redirectTo = RoutesList.LOGIN } = props;
-  const isLogged = false;
+  const { isAuthenticated } = useAuth();
 
-  return isLogged ? element : <Navigate to={redirectTo} />;
+  return isAuthenticated ? element : <Navigate to={redirectTo} />;
 }
 
 export default ProtectedRoute;

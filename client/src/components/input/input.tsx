@@ -10,6 +10,11 @@ function Input({ ...rest }: IInputProps) {
         borderColor: "gray.300",
         p: 2,
         borderRadius: "md",
+        "&:disabled": {
+          bg: "gray.200",
+          cursor: "not-allowed",
+          opacity: 0.5,
+        },
       })}
       {...rest}
     />
