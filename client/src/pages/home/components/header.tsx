@@ -3,22 +3,17 @@ import { css } from "~/styled-system/css";
 import { flex } from "~/styled-system/patterns";
 
 function Header() {
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
 
   return (
     <header
       className={css({
-        bg: "gray.200",
         color: "gray.800",
         p: 4,
         position: "relative",
       })}
     >
       <div className={flex({ justifyContent: "center" })}>
-        <h1 className={css({ fontSize: "xl" })}>
-          {user?.name.first} {user?.name.last}
-        </h1>
-
         <button
           onClick={logout}
           className={css({

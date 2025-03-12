@@ -41,3 +41,46 @@ export async function create(req: Request, res: Response, next: NextFunction) {
     next(error);
   }
 }
+
+export async function update(req: Request, res: Response, next: NextFunction) {
+  try {
+    const db = await connect();
+    const userIndex = db.data.users.findIndex(
+      (user) => user._id === req.params.id
+    );
+
+    if (userIndex === -1) throw notFound("User not found");
+
+    db.data.users[userIndex] = req.body;
+
+    db.write();
+    res.json(db.data.users[userIndex]);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function patch(req: Request, res: Response, next: NextFunction) {
+  try {
+    const db = await connect();
+    const userIndex = db.data.users.findIndex(
+      (user) => user._id === req.params.id
+    );
+
+    if (userIndex === -1) throw notFound("User not found");
+
+    db.data.users[userIndex] = {
+      ...db.data.users[userIndex],
+      ...req.body,
+      name: {
+        ...db.data.users[userIndex].name,
+        ...(req.body.name || {}),
+      },
+    };
+
+    await db.write();
+    res.json(db.data.users[userIndex]);
+  } catch (error) {
+    next(error);
+  }
+}

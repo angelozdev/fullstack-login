@@ -32,9 +32,17 @@ class LocalStorage<T> {
     return !!localStorage.getItem(this.key);
   }
 
-  public get(): T | null {
-    const value = localStorage.getItem(this.key);
-    return value ? this.deserialize(value) : null;
+  public get(
+    defaultValue: T | null = null,
+    onError?: (error: Error) => void
+  ): T | null {
+    try {
+      const value = localStorage.getItem(this.key);
+      return value ? this.deserialize(value) : defaultValue;
+    } catch (error) {
+      onError?.(error as Error);
+      return defaultValue;
+    }
   }
 
   public set(value: T, onError?: (error: Error) => void): boolean {

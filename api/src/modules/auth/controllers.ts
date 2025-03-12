@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { connect } from "../../db";
 import { notFound, unauthorized } from "@hapi/boom";
+import JSONWebToken from "../../libs/jwt";
 
 export async function login(req: Request, res: Response, next: NextFunction) {
   try {
@@ -10,7 +11,12 @@ export async function login(req: Request, res: Response, next: NextFunction) {
     if (!user) throw notFound("User not found");
     if (user.password !== password) throw unauthorized("Invalid password");
 
-    res.json({ token: user._id });
+    const token = JSONWebToken.sign({
+      id: user._id,
+      email: user.email,
+    });
+
+    res.json({ token, user });
   } catch (error) {
     next(error);
   }

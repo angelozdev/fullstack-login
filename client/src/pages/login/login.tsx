@@ -15,8 +15,12 @@ const userStorage = new LocalStorage(LSKeys.LOGGED_USER);
 
 function LoginPage() {
   const [showPassword, setShowPassword] = useToggle(false);
-  const { setUser } = useAuth();
-  const { mutate: login, isPending } = useMutation({
+  const { setData: setAuthData } = useAuth();
+  const {
+    mutate: login,
+    isPending,
+    isError,
+  } = useMutation({
     mutationFn: accountServices.login,
   });
 
@@ -30,8 +34,8 @@ function LoginPage() {
     login(
       { email, password },
       {
-        onSuccess: ({ data }) => {
-          setUser(data);
+        onSuccess: (data) => {
+          setAuthData(data);
           userStorage.set(data);
         },
       }
@@ -74,6 +78,12 @@ function LoginPage() {
             placeholder={showPassword ? "My password" : "••••••••••••••••"}
           />
         </Label>
+
+        {isError && (
+          <p className={css({ color: "red", textAlign: "center" })}>
+            Invalid email or password
+          </p>
+        )}
 
         <button type="button" onClick={setShowPassword}>
           {showPassword ? "Hide" : "Show"} Password

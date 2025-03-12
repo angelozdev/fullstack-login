@@ -8,11 +8,16 @@ import {
 import LocalStorage, { LSKeys } from "~/libs/ls";
 import { IUser } from "~/types/user";
 
+interface IAuthData {
+  token: string;
+  user: IUser;
+}
+
 interface IAuthContext {
-  user: IUser | null;
-  setUser: (user: IUser) => void;
+  setData: (data: IAuthData) => void;
   isAuthenticated: boolean;
   logout: () => void;
+  data: IAuthData | null;
 }
 
 const AuthContext = createContext<null | IAuthContext>(null);
@@ -21,20 +26,26 @@ interface IAuthProviderProps {
   children: React.ReactNode;
 }
 
-const userStorage = new LocalStorage<IUser>(LSKeys.LOGGED_USER);
+const userStorage = new LocalStorage<IAuthData>(LSKeys.LOGGED_USER);
 
 export function AuthProvider({ children }: IAuthProviderProps) {
-  const [user, setUser] = useState<IUser | null>(userStorage.get());
-  const isAuthenticated = !!user;
+  const [data, setData] = useState<IAuthData | null>(() =>
+    userStorage.get(null, (error) => {
+      console.error(error);
+      userStorage.remove();
+    })
+  );
+
+  const isAuthenticated = !!data?.token && !!data?.user;
 
   const logout = useCallback(() => {
-    setUser(null);
+    setData(null);
     userStorage.remove();
   }, []);
 
   const value = useMemo(
-    () => ({ user, setUser, isAuthenticated, logout }),
-    [user, isAuthenticated, logout]
+    () => ({ isAuthenticated, logout, data, setData }),
+    [data, isAuthenticated, logout]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
