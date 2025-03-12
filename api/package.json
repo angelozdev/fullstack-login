@@ -25,6 +25,7 @@
   "name": "api",
   "packageManager": "pnpm@10.6.1",
   "scripts": {
+    "build": "tsc",
     "start": "node dist/index.js",
     "start:dev": "nodemon --exec ts-node src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
