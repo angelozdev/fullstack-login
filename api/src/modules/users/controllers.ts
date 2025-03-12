@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { connect } from "../../db";
 import { notFound, serverUnavailable } from "@hapi/boom";
+import JSONWebToken from "../../libs/jwt";
 
 export async function getAll(req: Request, res: Response, next: NextFunction) {
   try {
@@ -80,6 +81,32 @@ export async function patch(req: Request, res: Response, next: NextFunction) {
 
     await db.write();
     res.json(db.data.users[userIndex]);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function getLogged(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const db = await connect();
+    const authorization = req.headers["authorization"];
+    if (!authorization) throw notFound("Authorization header is required");
+
+    const token = authorization.replace("Bearer ", "");
+    if (!token) throw notFound("Token is required");
+
+    const { id } = JSONWebToken.decode(token) as any;
+    console.log(id);
+
+    const user = db.data.users.find((user) => user._id === id);
+
+    if (!user) throw notFound("User not found");
+
+    res.json(user);
   } catch (error) {
     next(error);
   }

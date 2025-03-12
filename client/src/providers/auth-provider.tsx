@@ -1,23 +1,19 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
+import { useQuery } from "@tanstack/react-query";
+import { createContext, useCallback, useContext, useMemo } from "react";
 import LocalStorage, { LSKeys } from "~/libs/ls";
+import { queryClient } from "~/libs/react-query";
+import accountServices from "~/services/account";
 import { IUser } from "~/types/user";
 
 interface IAuthData {
   token: string;
-  user: IUser;
+  userId: string;
 }
 
 interface IAuthContext {
-  setData: (data: IAuthData) => void;
   isAuthenticated: boolean;
   logout: () => void;
-  data: IAuthData | null;
+  user: IUser | null;
 }
 
 const AuthContext = createContext<null | IAuthContext>(null);
@@ -26,26 +22,27 @@ interface IAuthProviderProps {
   children: React.ReactNode;
 }
 
-const userStorage = new LocalStorage<IAuthData>(LSKeys.LOGGED_USER);
+const tokenStorage = new LocalStorage<IAuthData>(LSKeys.TOKEN);
 
 export function AuthProvider({ children }: IAuthProviderProps) {
-  const [data, setData] = useState<IAuthData | null>(() =>
-    userStorage.get(null, (error) => {
-      console.error(error);
-      userStorage.remove();
-    })
-  );
+  const { data: loggedUser = null, isSuccess } = useQuery({
+    queryKey: ["user", "me"],
+    queryFn: accountServices.getLoggedUser,
+    staleTime: 1000 * 60 * 60, // 1 hour
+    retry: false,
+  });
 
-  const isAuthenticated = !!data?.token && !!data?.user;
+  const isAuthenticated = !!loggedUser && isSuccess;
 
-  const logout = useCallback(() => {
-    setData(null);
-    userStorage.remove();
+  const logout = useCallback(async () => {
+    tokenStorage.remove();
+    await queryClient.invalidateQueries({ queryKey: ["user", "me"] });
+    queryClient.removeQueries({ queryKey: ["user", "me"] });
   }, []);
 
   const value = useMemo(
-    () => ({ isAuthenticated, logout, data, setData }),
-    [data, isAuthenticated, logout]
+    () => ({ isAuthenticated, logout, user: loggedUser }),
+    [loggedUser, isAuthenticated, logout]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

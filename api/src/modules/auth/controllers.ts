@@ -16,7 +16,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
       email: user.email,
     });
 
-    res.json({ token, user });
+    res.json({ token, userId: user._id });
   } catch (error) {
     next(error);
   }

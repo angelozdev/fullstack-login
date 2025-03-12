@@ -24,8 +24,8 @@ const root = createRoot($root);
 
 root.render(
   <StrictMode>
-    <AuthProvider>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
         <ReactQueryDevtools initialIsOpen={false} />
         <div className={css({ maxW: "500px", mx: "auto" })}>
           <BrowserRouter>
@@ -50,7 +50,7 @@ root.render(
             </Routes>
           </BrowserRouter>
         </div>
-      </QueryClientProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </QueryClientProvider>
   </StrictMode>
 );

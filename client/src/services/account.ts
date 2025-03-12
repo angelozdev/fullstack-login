@@ -8,7 +8,7 @@ interface ILoginParams {
 
 interface ILoginResponse {
   token: string;
-  user: IUser;
+  userId: string;
 }
 
 async function login({ password, email }: ILoginParams) {
@@ -19,6 +19,11 @@ async function login({ password, email }: ILoginParams) {
   return data;
 }
 
-const services = { login };
+async function getLoggedUser() {
+  const { data } = await axios.get<IUser>("/v1/users/me");
+  return data;
+}
 
-export default services;
+const accountServices = { login, getLoggedUser };
+
+export default accountServices;

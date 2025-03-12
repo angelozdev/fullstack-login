@@ -9,13 +9,12 @@ import { useToggle } from "~/hooks";
 import LocalStorage, { LSKeys } from "~/libs/ls";
 import { useMutation } from "@tanstack/react-query";
 import accountServices from "~/services/account";
-import { useAuth } from "~/providers/auth-provider";
+import { queryClient } from "~/libs/react-query";
 
-const userStorage = new LocalStorage(LSKeys.LOGGED_USER);
+const tokenStorage = new LocalStorage<string>(LSKeys.TOKEN);
 
 function LoginPage() {
   const [showPassword, setShowPassword] = useToggle(false);
-  const { setData: setAuthData } = useAuth();
   const {
     mutate: login,
     isPending,
@@ -34,9 +33,9 @@ function LoginPage() {
     login(
       { email, password },
       {
-        onSuccess: (data) => {
-          setAuthData(data);
-          userStorage.set(data);
+        onSuccess: ({ token }) => {
+          tokenStorage.set(token);
+          queryClient.invalidateQueries({ queryKey: ["user", "me"] });
         },
       }
     );

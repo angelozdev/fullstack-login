@@ -6,6 +6,7 @@ interface LocalStorageOptions<T> {
 
 export enum LSKeys {
   LOGGED_USER = "@logged_user",
+  TOKEN = "@token",
 }
 
 class LocalStorage<T> {

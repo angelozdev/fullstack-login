@@ -8,6 +8,7 @@ import InactiveAccountAlert from "./components/inactive-account-alert";
 import { useToggle } from "~/hooks";
 import usersService from "~/services/users";
 import CardInfo from "./components/card-info";
+import { queryClient } from "~/libs/react-query";
 
 interface IFields {
   balance?: string;
@@ -17,10 +18,9 @@ interface IFields {
 }
 
 function HomePage() {
-  const { data: authData } = useAuth();
+  const { user } = useAuth();
   const [showBalance, toggleBalance] = useToggle(false);
   const [editMode, toggleEditMode] = useToggle(false);
-  const { user } = authData || {};
 
   const { mutate: updateUser, isPending } = useMutation({
     mutationFn: ({ id, fields }: { id: string; fields: IFields }) =>
@@ -36,7 +36,15 @@ function HomePage() {
     const fields = Object.fromEntries(formData.entries());
     console.log("🚀 ~ updateUserHandler ~ fields:", fields);
 
-    updateUser({ id: user?._id, fields });
+    updateUser(
+      { id: user?._id, fields },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["user", "me"] });
+          toggleEditMode();
+        },
+      }
+    );
   };
 
   return (

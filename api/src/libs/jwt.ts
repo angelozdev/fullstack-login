@@ -12,6 +12,10 @@ class JSONWebToken {
   static verify(token: string) {
     return jwt.verify(token, JWT_SECRET);
   }
+
+  static decode(token: string) {
+    return jwt.decode(token);
+  }
 }
 
 export default JSONWebToken;
