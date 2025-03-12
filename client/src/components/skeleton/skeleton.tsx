@@ -18,7 +18,10 @@ const sharedStyles = css({
 
 function Paragraph({ lines = 5 }: IParagraphProps) {
   return (
-    <div role="progressbar" className={flex({ direction: "column", gap: 2 })}>
+    <div
+      role="progressbar"
+      className={flex({ direction: "column", gap: 2, w: "100%" })}
+    >
       {Array.from({ length: lines }).map((_, index) => (
         <span
           key={index}
@@ -48,7 +51,7 @@ function Circle({ size = 100 }: { size?: number }) {
     <div
       className={cx(
         sharedStyles,
-        css({ w: size, h: size, borderRadius: "full" })
+        css({ w: `${size}px`, h: `${size}px`, borderRadius: "full" })
       )}
     />
   );

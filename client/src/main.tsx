@@ -9,6 +9,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 // components
 import { ProtectedRoute, RedirectIfAuthenticated } from "./components";
 import LoginSkeleton from "./pages/login/login-skeleton";
+import { HomeSkeleton } from "./pages/home/components";
 import { AuthProvider } from "./providers/auth-provider";
 
 // utils
@@ -33,7 +34,7 @@ root.render(
               <Route
                 path={RoutesList.HOME}
                 element={
-                  <Suspense fallback={<div>Loading...</div>}>
+                  <Suspense fallback={<HomeSkeleton />}>
                     <ProtectedRoute element={<HomePage />} />
                   </Suspense>
                 }

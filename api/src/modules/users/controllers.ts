@@ -100,7 +100,6 @@ export async function getLogged(
     if (!token) throw notFound("Token is required");
 
     const { id } = JSONWebToken.decode(token) as any;
-    console.log(id);
 
     const user = db.data.users.find((user) => user._id === id);
 

@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 
 import { useAuth } from "~/providers/auth-provider";
-import { Header } from "./components";
+import { Header, HomeSkeleton } from "./components";
 import { css } from "~/styled-system/css";
 import { Button } from "~/components";
 import InactiveAccountAlert from "./components/inactive-account-alert";
@@ -34,18 +34,19 @@ function HomePage() {
     const form = event.currentTarget;
     const formData = new FormData(form);
     const fields = Object.fromEntries(formData.entries());
-    console.log("🚀 ~ updateUserHandler ~ fields:", fields);
 
     updateUser(
       { id: user?._id, fields },
       {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ["user", "me"] });
+        onSuccess: async () => {
           toggleEditMode();
+          await queryClient.refetchQueries({ queryKey: ["user", "me"] });
         },
       }
     );
   };
+
+  if (!user) return <HomeSkeleton />;
 
   return (
     <div>

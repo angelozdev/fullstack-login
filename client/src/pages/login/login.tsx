@@ -6,22 +6,11 @@ import { Button, Label, Input } from "~/components";
 // utils
 import { css } from "~/styled-system/css";
 import { useToggle } from "~/hooks";
-import LocalStorage, { LSKeys } from "~/libs/ls";
-import { useMutation } from "@tanstack/react-query";
-import accountServices from "~/services/account";
-import { queryClient } from "~/libs/react-query";
-
-const tokenStorage = new LocalStorage<string>(LSKeys.TOKEN);
+import { useAuth } from "~/providers/auth-provider";
 
 function LoginPage() {
   const [showPassword, setShowPassword] = useToggle(false);
-  const {
-    mutate: login,
-    isPending,
-    isError,
-  } = useMutation({
-    mutationFn: accountServices.login,
-  });
+  const { login, isLogingIn, isLoginError } = useAuth();
 
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -30,19 +19,11 @@ function LoginPage() {
     const email = form.get("email") as string;
     const password = form.get("password") as string;
 
-    login(
-      { email, password },
-      {
-        onSuccess: ({ token }) => {
-          tokenStorage.set(token);
-          queryClient.invalidateQueries({ queryKey: ["user", "me"] });
-        },
-      }
-    );
+    login({ email, password });
   };
 
   return (
-    <form aria-disabled={isPending} onSubmit={submitHandler}>
+    <form aria-disabled={isLogingIn} onSubmit={submitHandler}>
       <figure className={css({ display: "flex", justifyContent: "center" })}>
         <img
           className={css({ w: 150, h: 150, objectFit: "contain" })}
@@ -59,7 +40,7 @@ function LoginPage() {
         <Label label="Email">
           <Input
             defaultValue="henderson.briggs@geeknet.net"
-            disabled={isPending}
+            disabled={isLogingIn}
             name="email"
             aria-label="email"
             type="email"
@@ -70,15 +51,15 @@ function LoginPage() {
         <Label label="Password">
           <Input
             defaultValue="23derd*334"
-            disabled={isPending}
+            disabled={isLogingIn}
             name="password"
             aria-label="password"
             type={showPassword ? "text" : "password"}
-            placeholder={showPassword ? "My password" : "••••••••••••••••"}
+            placeholder={"••••••••••••••••"}
           />
         </Label>
 
-        {isError && (
+        {isLoginError && (
           <p className={css({ color: "red", textAlign: "center" })}>
             Invalid email or password
           </p>
@@ -88,7 +69,7 @@ function LoginPage() {
           {showPassword ? "Hide" : "Show"} Password
         </button>
 
-        <Button disabled={isPending} type="submit">
+        <Button disabled={isLogingIn} type="submit">
           Login
         </Button>
       </div>

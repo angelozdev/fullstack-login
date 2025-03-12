@@ -1,19 +1,24 @@
-import { useQuery } from "@tanstack/react-query";
-import { createContext, useCallback, useContext, useMemo } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 import LocalStorage, { LSKeys } from "~/libs/ls";
 import { queryClient } from "~/libs/react-query";
 import accountServices from "~/services/account";
 import { IUser } from "~/types/user";
 
-interface IAuthData {
-  token: string;
-  userId: string;
-}
-
 interface IAuthContext {
   isAuthenticated: boolean;
   logout: () => void;
   user: IUser | null;
+  token: string | null;
+  isLogingIn: boolean;
+  isLoginError: boolean;
+  login: (data: { email: string; password: string }) => void;
 }
 
 const AuthContext = createContext<null | IAuthContext>(null);
@@ -22,27 +27,57 @@ interface IAuthProviderProps {
   children: React.ReactNode;
 }
 
-const tokenStorage = new LocalStorage<IAuthData>(LSKeys.TOKEN);
+const tokenStorage = new LocalStorage<string>(LSKeys.TOKEN);
 
 export function AuthProvider({ children }: IAuthProviderProps) {
-  const { data: loggedUser = null, isSuccess } = useQuery({
+  const [token, setToken] = useState(tokenStorage.get(null));
+  const { data: loggedUser = null } = useQuery({
     queryKey: ["user", "me"],
-    queryFn: accountServices.getLoggedUser,
+    queryFn: () => accountServices.getLoggedUser(tokenStorage.get()),
     staleTime: 1000 * 60 * 60, // 1 hour
     retry: false,
+    enabled: !!token,
   });
 
-  const isAuthenticated = !!loggedUser && isSuccess;
+  const {
+    mutate: login,
+    isPending: isLogingIn,
+    isError: isLoginError,
+  } = useMutation({
+    mutationFn: accountServices.login,
+    onSuccess: ({ token }) => {
+      tokenStorage.set(token);
+      setToken(token);
+    },
+  });
+
+  const isAuthenticated = !!token;
 
   const logout = useCallback(async () => {
     tokenStorage.remove();
-    await queryClient.invalidateQueries({ queryKey: ["user", "me"] });
-    queryClient.removeQueries({ queryKey: ["user", "me"] });
+    setToken(null);
+    queryClient.clear();
   }, []);
 
   const value = useMemo(
-    () => ({ isAuthenticated, logout, user: loggedUser }),
-    [loggedUser, isAuthenticated, logout]
+    () => ({
+      isAuthenticated,
+      logout,
+      user: loggedUser,
+      token,
+      login,
+      isLogingIn,
+      isLoginError,
+    }),
+    [
+      loggedUser,
+      isAuthenticated,
+      logout,
+      token,
+      login,
+      isLogingIn,
+      isLoginError,
+    ]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

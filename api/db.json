@@ -5,7 +5,7 @@
       "address": "121 National Drive, Cotopaxi, Michigan, 8240",
       "age": 30,
       "balance": "$3,585.69",
-      "company": "Zero Copy Labs",
+      "company": "GEEKNET",
       "email": "henderson.briggs@geeknet.net",
       "eyeColor": "blue",
       "guid": "eab0324c-75ef-49a1-9c49-be2d68f50b96",
@@ -17,6 +17,24 @@
       "password": "23derd*334",
       "phone": "+ 13 232 3213 32",
       "picture": "https://i.pravatar.cc/500?img=1"
+    },
+    {
+      "_id": "5410953fb0e0c0ae25608277",
+      "address": "El Tesoro, Medellín, Colombia 🇨🇴",
+      "age": 30,
+      "balance": "$100.550.000,12",
+      "company": "Google Inc ✨",
+      "email": "alopezd@gmail.com",
+      "eyeColor": "green",
+      "guid": "eab0324c-75ef-49a1-9c42-be2d68f50b96",
+      "isActive": true,
+      "name": {
+        "first": "Ana",
+        "last": "Lopez"
+      },
+      "password": "admin1234",
+      "phone": "+57 311 234 5678",
+      "picture": "https://i.pravatar.cc/500?img=10"
     },
     {
       "_id": "5410953eee9a5b30c3eea476",

@@ -19,8 +19,10 @@ async function login({ password, email }: ILoginParams) {
   return data;
 }
 
-async function getLoggedUser() {
-  const { data } = await axios.get<IUser>("/v1/users/me");
+async function getLoggedUser(token?: string | null) {
+  const { data } = await axios.get<IUser>("/v1/users/me", {
+    headers: { Authorization: token ? `Bearer ${token}` : "" },
+  });
   return data;
 }
 
