@@ -28,7 +28,7 @@ root.render(
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <ReactQueryDevtools initialIsOpen={false} />
-        <div className={css({ maxW: "500px", mx: "auto" })}>
+        <div className={css({ maxW: "500px", mx: "auto", px: 4, py: 8 })}>
           <BrowserRouter>
             <Routes>
               <Route
