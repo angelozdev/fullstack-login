@@ -24,11 +24,11 @@ function LoginPage() {
     event.preventDefault();
 
     const form = new FormData(event.currentTarget);
-    const username = form.get("username") as string;
+    const email = form.get("email") as string;
     const password = form.get("password") as string;
 
     login(
-      { username, password },
+      { email, password },
       {
         onSuccess: ({ data }) => {
           setUser(data);
@@ -53,18 +53,20 @@ function LoginPage() {
       <div
         className={css({ display: "flex", flexDirection: "column", gap: 4 })}
       >
-        <Label label="Username">
+        <Label label="Email">
           <Input
+            defaultValue="henderson.briggs@geeknet.net"
             disabled={isPending}
-            name="username"
-            aria-label="username"
-            type="text"
-            placeholder="John Doe"
+            name="email"
+            aria-label="email"
+            type="email"
+            placeholder="email@mail.com"
           />
         </Label>
 
         <Label label="Password">
           <Input
+            defaultValue="23derd*334"
             disabled={isPending}
             name="password"
             aria-label="password"

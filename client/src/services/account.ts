@@ -1,32 +1,13 @@
-import sleep from "~/utils/sleep";
+import axios from "~/libs/axios";
 
 interface ILoginParams {
-  username: string;
+  email: string;
   password: string;
 }
 
-async function login(_: ILoginParams) {
-  await sleep(1000);
-  const user = {
-    _id: "5410953eb0e0c0ae25608277",
-    address: "121 National Drive, Cotopaxi, Michigan, 8240",
-    age: 30,
-    balance: "$3,585.69",
-    company: "GEEKNET",
-    email: "henderson.briggs@geeknet.net",
-    eyeColor: "blue",
-    guid: "eab0324c-75ef-49a1-9c49-be2d68f50b96",
-    isActive: true,
-    name: {
-      first: "Henderson",
-      last: "Briggs",
-    },
-    password: "23derd*334",
-    phone: "+1 (936) 451-3590",
-    picture: "https://i.pravatar.cc/500?img=1",
-  };
-
-  return Promise.resolve({ data: user });
+async function login({ password, email }: ILoginParams) {
+  const { data } = await axios.post("/login", { password, email });
+  return data;
 }
 
 const services = { login };

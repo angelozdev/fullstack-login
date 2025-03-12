@@ -1,0 +1,31 @@
+{
+  "author": "",
+  "dependencies": {
+    "@hapi/boom": "10.0.1",
+    "cors": "2.8.5",
+    "express": "4.21.2",
+    "lowdb": "7.0.1",
+    "morgan": "1.10.0",
+    "zod": "3.24.2"
+  },
+  "description": "",
+  "devDependencies": {
+    "@types/cors": "2.8.17",
+    "@types/express": "5.0.0",
+    "@types/morgan": "1.9.9",
+    "nodemon": "3.1.9",
+    "ts-node": "10.9.2",
+    "typescript": "5.8.2"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "main": "index.js",
+  "name": "api",
+  "packageManager": "pnpm@10.6.1",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "start:dev": "nodemon --exec ts-node src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.0"
+}
