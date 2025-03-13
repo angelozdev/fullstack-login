@@ -8,7 +8,7 @@ interface IParagraphProps {
 const sharedStyles = css({
   w: "100%",
   bg: "gray.300",
-  borderRadius: "md",
+  borderRadius: "1.5rem",
   animationName: "pulse",
   animationDuration: "1.5s",
   animationIterationCount: "infinite",

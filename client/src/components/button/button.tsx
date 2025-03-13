@@ -26,9 +26,9 @@ const button = cva({
   variants: {
     variant: {
       primary: {
-        bg: "blue.500",
+        bg: "black",
         "&:not(:disabled):hover": {
-          bg: "blue.600",
+          bg: "black",
         },
       },
       secondary: {

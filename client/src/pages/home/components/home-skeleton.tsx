@@ -10,6 +10,7 @@ function HomeSkeleton() {
         flexDirection: "column",
         gap: 4,
         mt: 8,
+        p: 4,
       })}
     >
       <div

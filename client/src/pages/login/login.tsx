@@ -23,7 +23,11 @@ function LoginPage() {
   };
 
   return (
-    <form aria-disabled={isLogingIn} onSubmit={submitHandler}>
+    <form
+      aria-disabled={isLogingIn}
+      onSubmit={submitHandler}
+      className={css({ p: 4, mt: 8 })}
+    >
       <figure className={css({ display: "flex", justifyContent: "center" })}>
         <img
           className={css({ w: 150, h: 150, objectFit: "contain" })}
@@ -70,7 +74,7 @@ function LoginPage() {
           </p>
         )}
 
-        <Button disabled={isLogingIn} type="submit">
+        <Button disabled={isLogingIn} type="submit" className={css({ mt: 6 })}>
           Login Now
         </Button>
       </div>

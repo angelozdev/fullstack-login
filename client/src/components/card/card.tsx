@@ -5,11 +5,12 @@ function Card({ children }: PropsWithChildren) {
   return (
     <div
       className={css({
-        borderRadius: "md",
-        boxShadow: "md",
-        p: 4,
-        bg: "white",
+        borderRadius: "1.5rem",
+        px: 6,
+        py: 4,
+        bg: "gray.100",
         color: "text",
+        minH: 12,
       })}
     >
       {children}
