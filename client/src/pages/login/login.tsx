@@ -12,7 +12,7 @@ function LoginPage() {
   const [showPassword, setShowPassword] = useToggle(false);
   const { login, isLogingIn, isLoginError } = useAuth();
 
-  const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const form = new FormData(event.currentTarget);
@@ -50,6 +50,11 @@ function LoginPage() {
 
         <Label label="Password">
           <Input
+            rightContent={
+              <button type="button" onClick={setShowPassword}>
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            }
             defaultValue="23derd*334"
             disabled={isLogingIn}
             name="password"
@@ -65,12 +70,8 @@ function LoginPage() {
           </p>
         )}
 
-        <button type="button" onClick={setShowPassword}>
-          {showPassword ? "Hide" : "Show"} Password
-        </button>
-
         <Button disabled={isLogingIn} type="submit">
-          Login
+          Login Now
         </Button>
       </div>
     </form>

@@ -8,19 +8,17 @@ interface IButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 const button = cva({
   base: {
     w: "full",
-    height: 10,
+    height: 12,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: "md",
+    borderRadius: "1.5rem",
     color: "white",
     cursor: "pointer",
     fontWeight: "semibold",
     transition: "all 0.2s",
     "&:not(:disabled):hover": { boxShadow: "md" },
     "&:disabled": {
-      bg: "gray.300",
-      color: "gray.500",
       cursor: "not-allowed",
       opacity: 0.5,
     },
@@ -69,6 +67,7 @@ function Button({
   className,
   variant,
   type = "button",
+
   ...rest
 }: IButtonProps) {
   return (

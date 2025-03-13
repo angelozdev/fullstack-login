@@ -17,8 +17,8 @@ import RoutesList from "./constants/routes";
 import { queryClient } from "./libs/react-query";
 import { AuthProvider } from "./providers/auth-provider";
 
-const HomePage = lazy(() => import("./pages/home/home"));
-const LoginPage = lazy(() => import("./pages/login/login"));
+const LazyHomePage = lazy(() => import("./pages/home/home"));
+const LazyLoginPage = lazy(() => import("./pages/login/login"));
 
 const $root = document.getElementById("root")!;
 const root = createRoot($root);
@@ -35,7 +35,7 @@ root.render(
                 path={RoutesList.HOME}
                 element={
                   <Suspense fallback={<HomeSkeleton />}>
-                    <ProtectedRoute element={<HomePage />} />
+                    <ProtectedRoute element={<LazyHomePage />} />
                   </Suspense>
                 }
               />
@@ -44,7 +44,7 @@ root.render(
                 path={RoutesList.LOGIN}
                 element={
                   <Suspense fallback={<LoginSkeleton />}>
-                    <RedirectIfAuthenticated element={<LoginPage />} />
+                    <RedirectIfAuthenticated element={<LazyLoginPage />} />
                   </Suspense>
                 }
               />
