@@ -9,8 +9,6 @@ function HomeSkeleton() {
         display: "flex",
         flexDirection: "column",
         gap: 4,
-        mt: 8,
-        p: 4,
       })}
     >
       <div
@@ -18,27 +16,34 @@ function HomeSkeleton() {
           display: "flex",
           alignItems: "center",
           flexDirection: "column",
-          gap: 4,
+          gap: 2,
+          mb: 4,
+          bg: "gray.100",
+          px: 4,
+          py: 8,
         })}
       >
-        <Skeleton.Circle size={180} />
-        <Skeleton.Paragraph lines={2} />
+        <Skeleton.Circle size={100} />
+        <Skeleton.Rectangle height={16} width="40%" />
+        <Skeleton.Rectangle height={16} width="60%" />
+
+        <div
+          className={css({
+            display: "flex",
+            gap: 4,
+            width: "100%",
+            mt: 8,
+          })}
+        >
+          <Skeleton.Rectangle height={50} />
+          <Skeleton.Rectangle height={50} />
+        </div>
       </div>
 
-      <div
-        className={css({
-          display: "flex",
-          gap: 4,
-        })}
-      >
-        <Skeleton.Rectangle height={50} />
-        <Skeleton.Rectangle height={50} />
-      </div>
-
-      <ul className={flex({ direction: "column", gap: 4 })}>
+      <ul className={flex({ direction: "column", gap: 4, p: 4 })}>
         {Array.from({ length: 5 }).map((_, index) => (
           <li key={index}>
-            <Skeleton.Rectangle height={70} />
+            <Skeleton.Rectangle height={50} />
           </li>
         ))}
       </ul>

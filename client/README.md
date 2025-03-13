@@ -1,54 +1,56 @@
-# React + TypeScript + Vite
+# Client Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Description
 
-Currently, two official plugins are available:
+This is the frontend for the SMART Pump web application. It provides a user-friendly interface for users to log in, check their balance, and update their personal details. The frontend is built using React, React Router, and TanStack React Query, with a modern development stack including TypeScript, Vite, and ESLint for code quality.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Live Project: [SMART Pump Frontend](https://fullstack-login-inky.vercel.app/)
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React 19**: JavaScript library for building reusable component-based user interfaces.
+- **React Router 7**: Library for handling navigation and routing in React applications.
+- **TanStack React Query**: Tool for managing server state, caching, and data synchronization in React.
+- **Axios**: Promise-based HTTP client for making API requests.
+- **PandaCSS**: Styling library based on a composable design approach with automatic optimization.
+- **TypeScript**: A superset of JavaScript that adds static typing to improve code security and scalability.
+- **ESLint**: Code analysis tool that helps detect and fix errors and bad practices.
+- **Vite**: Fast build tool for frontend projects with support for ES Modules.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Installation
+
+```sh
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Development
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+To start the development server:
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```sh
+npm run dev
+```
+
+## Build
+
+To create a production build:
+
+```sh
+npm run build
+```
+
+## Preview
+
+To preview the production build:
+
+```sh
+npm run preview
+```
+
+## Linting
+
+To run ESLint:
+
+```sh
+npm run lint
 ```

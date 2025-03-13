@@ -40,7 +40,7 @@ function Rectangle({
   width,
   height = 32,
 }: {
-  width?: number;
+  width?: number | string;
   height?: number | string;
 }) {
   return <div style={{ width, height }} className={sharedStyles} />;
