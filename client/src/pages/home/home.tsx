@@ -183,7 +183,7 @@ function HomePage() {
           {editMode && (
             <div className={css({ mt: 4 })}>
               <Button type="submit" variant="primary" disabled={isPending}>
-                Update
+                {isPending ? "Saving..." : "Save"}
               </Button>
             </div>
           )}

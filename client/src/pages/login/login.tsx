@@ -75,7 +75,7 @@ function LoginPage() {
         )}
 
         <Button disabled={isLogingIn} type="submit" className={css({ mt: 6 })}>
-          Login Now
+          {isLogingIn ? "Logging in..." : "Login Now"}
         </Button>
       </div>
     </form>
