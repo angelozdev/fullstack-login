@@ -14,6 +14,6 @@ app.use("/api/v1/users", usersRouter);
 app.use("/api", authRouter);
 app.use(errorHandler);
 
-app.listen(3000, async () => {
-  console.log("Server is running on http://localhost:3000");
+app.listen(process.env.PORT || 3000, async () => {
+  console.log("Server is running on port 3000");
 });
