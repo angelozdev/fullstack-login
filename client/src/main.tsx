@@ -10,12 +10,12 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ProtectedRoute, RedirectIfAuthenticated } from "./components";
 import LoginSkeleton from "./pages/login/login-skeleton";
 import { HomeSkeleton } from "./pages/home/components";
-import { AuthProvider } from "./providers/auth-provider";
 
 // utils
 import { css } from "./styled-system/css";
 import RoutesList from "./constants/routes";
 import { queryClient } from "./libs/react-query";
+import { AuthProvider } from "./providers/auth-provider";
 
 const HomePage = lazy(() => import("./pages/home/home"));
 const LoginPage = lazy(() => import("./pages/login/login"));

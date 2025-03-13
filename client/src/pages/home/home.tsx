@@ -1,6 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { useAuth } from "~/providers/auth-provider";
 import { Header, HomeSkeleton } from "./components";
 import { css } from "~/styled-system/css";
 import { Button } from "~/components";
@@ -9,6 +8,7 @@ import { useToggle } from "~/hooks";
 import usersService from "~/services/users";
 import CardInfo from "./components/card-info";
 import { queryClient } from "~/libs/react-query";
+import { useAuth } from "~/providers/auth-provider";
 
 interface IFields {
   balance?: string;
