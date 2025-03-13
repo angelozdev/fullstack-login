@@ -16,6 +16,7 @@
     "@types/jsonwebtoken": "9.0.9",
     "@types/morgan": "1.9.9",
     "nodemon": "3.1.9",
+    "rimraf": "6.0.1",
     "ts-node": "10.9.2",
     "typescript": "5.8.2"
   },
@@ -25,7 +26,7 @@
   "name": "api",
   "packageManager": "pnpm@10.6.1",
   "scripts": {
-    "build": "tsc",
+    "build": "rimraf dist && tsc",
     "start": "node dist/index.js",
     "start:dev": "nodemon --exec ts-node src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
