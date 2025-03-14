@@ -1,58 +1,53 @@
-import { css, cx } from '~/styled-system/css'
-import { flex } from '~/styled-system/patterns'
+import {
+  circleStyles,
+  lineStyles,
+  paragraphStyles,
+  skeletonStyles
+} from './skeleton.styles'
+import { cx } from '~/styled-system/css'
 
 interface IParagraphProps {
   lines?: number
 }
 
-const sharedStyles = css({
-  w: '100%',
-  bg: 'gray.300',
-  borderRadius: '1.5rem',
-  animationName: 'pulse',
-  animationDuration: '1.5s',
-  animationIterationCount: 'infinite',
-  animationTimingFunction: 'ease-in-out',
-  animationDirection: 'alternate'
-})
-
 function Paragraph({ lines = 5 }: IParagraphProps) {
   return (
-    <div
-      role="progressbar"
-      className={flex({ direction: 'column', gap: 2, w: '100%' })}
-    >
+    <div role="progressbar" className={paragraphStyles}>
       {Array.from({ length: lines }).map((_, index) => (
-        <span
-          key={index}
-          className={cx(sharedStyles, css({ h: 4, display: 'inline-block' }))}
-        />
+        <span key={index} className={cx(skeletonStyles, lineStyles)} />
       ))}
     </div>
   )
 }
 
-function Square({ size = 100 }: { size?: number }) {
-  return <div style={{ width: size, height: size }} className={sharedStyles} />
+interface ISquareProps {
+  size?: number
 }
 
-function Rectangle({
-  width,
-  height = 32
-}: {
+function Square({ size = 100 }: ISquareProps) {
+  return (
+    <div style={{ width: size, height: size }} className={skeletonStyles} />
+  )
+}
+
+interface IRectangleProps {
   width?: number | string
   height?: number | string
-}) {
-  return <div style={{ width, height }} className={sharedStyles} />
 }
 
-function Circle({ size = 100 }: { size?: number }) {
+function Rectangle({ width, height = 32 }: IRectangleProps) {
+  return <div style={{ width, height }} className={skeletonStyles} />
+}
+
+interface ICircleProps {
+  size?: number
+}
+
+function Circle({ size = 100 }: ICircleProps) {
   return (
     <div
-      className={cx(
-        sharedStyles,
-        css({ w: `${size}px`, h: `${size}px`, borderRadius: 'full' })
-      )}
+      style={{ width: `${size}px`, height: `${size}px` }}
+      className={cx(skeletonStyles, circleStyles)}
     />
   )
 }

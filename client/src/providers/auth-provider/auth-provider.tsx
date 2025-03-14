@@ -3,7 +3,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { useCallback, useEffect, useMemo } from 'react'
 import { useLocalStorage } from '~/hooks'
 import { LSKeys } from '~/libs/ls'
-import { queryClient } from '~/libs/react-query'
+import { queryClient, queryKeys } from '~/libs/react-query'
 import accountServices from '~/services/account'
 
 interface IAuthProviderProps {
@@ -16,7 +16,7 @@ function AuthProvider({ children }: IAuthProviderProps) {
   )
 
   const { data: loggedUser = null, isError } = useQuery({
-    queryKey: ['user', 'me'],
+    queryKey: queryKeys.user.me,
     queryFn: () => accountServices.getLoggedUser(token),
     staleTime: 1000 * 60 * 60, // 1 hour
     retry: false,

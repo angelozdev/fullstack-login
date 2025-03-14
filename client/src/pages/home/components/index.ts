@@ -1,2 +1,5 @@
-export { default as LogoutButton } from './logout-button'
+export { default as CardInfo } from './card-info'
+export { default as Content } from './content'
+export { default as Header } from './header'
 export { default as HomeSkeleton } from './home-skeleton'
+export { default as LogoutButton } from './logout-button'
