@@ -1,5 +1,5 @@
 import { Card } from "~/components";
-import { css } from "~/styled-system/css";
+import { css, cx } from "~/styled-system/css";
 
 interface ICardInfoProps {
   editMode: boolean;
@@ -8,6 +8,8 @@ interface ICardInfoProps {
   defaultValue: string | number;
   label: string;
   displayValue: string | number;
+  className?: string;
+  disabled?: boolean;
 }
 
 function CardInfo({
@@ -17,9 +19,11 @@ function CardInfo({
   defaultValue,
   label,
   displayValue,
+  className,
+  disabled,
 }: ICardInfoProps) {
   return (
-    <Card>
+    <Card className={cx(className, css({ opacity: disabled ? 0.5 : 1 }))}>
       <div
         className={css({ display: "flex", flexDirection: "column", gap: 2 })}
       >

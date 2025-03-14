@@ -1,3 +1,4 @@
+import { useOptimistic } from "react";
 import { useMutation } from "@tanstack/react-query";
 
 import { LogoutButton, HomeSkeleton } from "./components";
@@ -21,29 +22,39 @@ function HomePage() {
   const { user } = useAuth();
   const [showBalance, toggleBalance] = useToggle(false);
   const [editMode, toggleEditMode] = useToggle(false);
-
-  const { mutate: updateUser, isPending } = useMutation({
-    mutationFn: ({ id, fields }: { id: string; fields: IFields }) =>
-      usersService.update(id, fields),
+  const [optimisticFields, setOptimisticFields] = useOptimistic({
+    address: user?.address || "",
+    phone: user?.phone || "",
+    company: user?.company || "",
   });
 
-  const updateUserHandler = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const { mutateAsync: updateUser, isPending } = useMutation({
+    mutationFn: ({ id, fields }: { id: string; fields: IFields }) =>
+      usersService.update(id, fields),
+    onMutate: toggleEditMode,
+  });
+
+  const updateUserHandler = async (form: FormData) => {
     if (!user) return;
 
-    const form = event.currentTarget;
-    const formData = new FormData(form);
-    const fields = Object.fromEntries(formData.entries());
+    try {
+      const fields = {
+        address: form.get("address") as string,
+        phone: form.get("phone") as string,
+        company: form.get("company") as string,
+      };
 
-    updateUser(
-      { id: user?._id, fields },
-      {
-        onSuccess: async () => {
-          toggleEditMode();
-          await queryClient.refetchQueries({ queryKey: ["user", "me"] });
-        },
-      }
-    );
+      setOptimisticFields({
+        address: fields.address,
+        phone: fields.phone,
+        company: fields.company,
+      });
+
+      await updateUser({ id: user?._id, fields });
+      await queryClient.refetchQueries({ queryKey: ["user", "me"] });
+    } catch (error) {
+      console.error("Error updating user", error);
+    }
   };
 
   if (!user) return <HomeSkeleton />;
@@ -59,7 +70,7 @@ function HomePage() {
           flexDirection: "column",
           gap: 4,
         })}
-        onSubmit={updateUserHandler}
+        action={updateUserHandler}
       >
         <header className={css({ bg: "gray.100", p: 4 })}>
           <div className={css({ display: "flex", justifyContent: "flex-end" })}>
@@ -137,34 +148,37 @@ function HomePage() {
 
             <li className={css({ flex: 1 })}>
               <CardInfo
+                disabled={optimisticFields.phone !== user?.phone}
                 defaultValue={user?.phone || ""}
                 editable
                 editMode={editMode}
                 label="Phone"
                 name="phone"
-                displayValue={user?.phone || ""}
+                displayValue={optimisticFields.phone}
               />
             </li>
 
             <li className={css({ flex: 1 })}>
               <CardInfo
+                disabled={optimisticFields.address !== user?.address}
                 defaultValue={user?.address || ""}
                 editable
                 editMode={editMode}
                 label="Address"
                 name="address"
-                displayValue={user?.address || ""}
+                displayValue={optimisticFields.address}
               />
             </li>
 
             <li className={css({ flex: 1 })}>
               <CardInfo
+                disabled={optimisticFields.company !== user?.company}
                 defaultValue={user?.company || ""}
                 editable
                 editMode={editMode}
                 label="Company"
                 name="company"
-                displayValue={user?.company || ""}
+                displayValue={optimisticFields.company}
               />
             </li>
 
