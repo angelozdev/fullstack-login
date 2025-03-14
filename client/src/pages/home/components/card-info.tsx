@@ -1,15 +1,15 @@
-import { Card } from "~/components";
-import { css, cx } from "~/styled-system/css";
+import { Card } from '~/components'
+import { css, cx } from '~/styled-system/css'
 
 interface ICardInfoProps {
-  editMode: boolean;
-  editable: boolean;
-  name: string;
-  defaultValue: string | number;
-  label: string;
-  displayValue: string | number;
-  className?: string;
-  disabled?: boolean;
+  editMode: boolean
+  editable: boolean
+  name: string
+  defaultValue: string | number
+  label: string
+  displayValue: string | number
+  className?: string
+  disabled?: boolean
 }
 
 function CardInfo({
@@ -20,19 +20,19 @@ function CardInfo({
   label,
   displayValue,
   className,
-  disabled,
+  disabled
 }: ICardInfoProps) {
   return (
     <Card className={cx(className, css({ opacity: disabled ? 0.5 : 1 }))}>
       <div
-        className={css({ display: "flex", flexDirection: "column", gap: 2 })}
+        className={css({ display: 'flex', flexDirection: 'column', gap: 2 })}
       >
         <div
           className={css({
-            display: "flex",
-            flexDirection: "row",
+            display: 'flex',
+            flexDirection: 'row',
             gap: 2,
-            alignItems: "center",
+            alignItems: 'center'
           })}
         >
           <label>{label}: </label>
@@ -40,11 +40,11 @@ function CardInfo({
           {editMode && editable ? (
             <input
               className={css({
-                bg: "white",
-                w: "full",
+                bg: 'white',
+                w: 'full',
                 px: 2,
                 py: 1,
-                borderRadius: 4,
+                borderRadius: 4
               })}
               name={name}
               defaultValue={defaultValue}
@@ -52,9 +52,9 @@ function CardInfo({
           ) : (
             <span
               className={css({
-                fontWeight: "semibold",
-                textAlign: "right",
-                w: "full",
+                fontWeight: 'semibold',
+                textAlign: 'right',
+                w: 'full'
               })}
             >
               {displayValue}
@@ -63,7 +63,7 @@ function CardInfo({
         </div>
       </div>
     </Card>
-  );
+  )
 }
 
-export default CardInfo;
+export default CardInfo

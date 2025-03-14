@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+import { useEffect } from 'react'
 
 function useUnmount(cb: () => void) {
   useEffect(() => {
-    return () => cb();
-  });
+    return () => cb()
+  })
 }
 
-export default useUnmount;
+export default useUnmount

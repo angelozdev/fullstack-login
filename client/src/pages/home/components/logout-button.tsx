@@ -1,17 +1,17 @@
-import { useAuth } from "~/providers/auth-provider";
-import { css } from "~/styled-system/css";
+import { useAuth } from '~/providers/auth-provider'
+import { css } from '~/styled-system/css'
 
 function LogoutButton() {
-  const { logout } = useAuth();
+  const { logout } = useAuth()
 
   return (
     <button
       onClick={logout}
       className={css({
-        bg: "transparent",
-        color: "gray.800",
+        bg: 'transparent',
+        color: 'gray.800',
         p: 2,
-        cursor: "pointer",
+        cursor: 'pointer'
       })}
     >
       <svg
@@ -21,7 +21,7 @@ function LogoutButton() {
         strokeWidth={1.5}
         width={24}
         height={24}
-        className={css({ stroke: "gray.800", transform: "rotate(180deg)" })}
+        className={css({ stroke: 'gray.800', transform: 'rotate(180deg)' })}
       >
         <path
           strokeLinecap="round"
@@ -30,7 +30,7 @@ function LogoutButton() {
         />
       </svg>
     </button>
-  );
+  )
 }
 
-export default LogoutButton;
+export default LogoutButton

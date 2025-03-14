@@ -1,6 +1,6 @@
 enum RoutesList {
-  HOME = "/",
-  LOGIN = "/login",
+  HOME = '/',
+  LOGIN = '/login'
 }
 
-export default RoutesList;
+export default RoutesList

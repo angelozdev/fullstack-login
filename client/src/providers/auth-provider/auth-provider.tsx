@@ -1,47 +1,47 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useCallback, useEffect, useMemo } from "react";
-import { LSKeys } from "~/libs/ls";
-import { queryClient } from "~/libs/react-query";
-import accountServices from "~/services/account";
-import AuthContext from "./context";
-import { useLocalStorage } from "~/hooks";
+import AuthContext from './context'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { useCallback, useEffect, useMemo } from 'react'
+import { useLocalStorage } from '~/hooks'
+import { LSKeys } from '~/libs/ls'
+import { queryClient } from '~/libs/react-query'
+import accountServices from '~/services/account'
 
 interface IAuthProviderProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 function AuthProvider({ children }: IAuthProviderProps) {
   const [token, setToken, removeToken] = useLocalStorage<string | null>(
     LSKeys.TOKEN
-  );
+  )
 
   const { data: loggedUser = null, isError } = useQuery({
-    queryKey: ["user", "me"],
+    queryKey: ['user', 'me'],
     queryFn: () => accountServices.getLoggedUser(token),
     staleTime: 1000 * 60 * 60, // 1 hour
     retry: false,
-    enabled: !!token,
-  });
+    enabled: !!token
+  })
 
   const {
     mutate: login,
     isPending: isLogingIn,
-    isError: isLoginError,
+    isError: isLoginError
   } = useMutation({
     mutationFn: accountServices.login,
-    onSuccess: ({ token }) => setToken(token),
-  });
+    onSuccess: ({ token }) => setToken(token)
+  })
 
-  const isAuthenticated = !!token;
+  const isAuthenticated = !!token
 
   const logout = useCallback(() => {
-    removeToken();
-    queryClient.clear();
-  }, [removeToken]);
+    removeToken()
+    queryClient.clear()
+  }, [removeToken])
 
   useEffect(() => {
-    if (isError) logout();
-  }, [isError, logout]);
+    if (isError) logout()
+  }, [isError, logout])
 
   const value = useMemo(
     () => ({
@@ -51,7 +51,7 @@ function AuthProvider({ children }: IAuthProviderProps) {
       token,
       login,
       isLogingIn,
-      isLoginError,
+      isLoginError
     }),
     [
       loggedUser,
@@ -60,11 +60,11 @@ function AuthProvider({ children }: IAuthProviderProps) {
       token,
       login,
       isLogingIn,
-      isLoginError,
+      isLoginError
     ]
-  );
+  )
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return <AuthContext value={value}>{children}</AuthContext>
 }
 
-export default AuthProvider;
+export default AuthProvider

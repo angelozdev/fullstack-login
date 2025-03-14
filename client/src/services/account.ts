@@ -1,31 +1,31 @@
-import axios from "~/libs/axios";
-import { IUser } from "~/types/user";
+import axios from '~/libs/axios'
+import { IUser } from '~/types/user'
 
 interface ILoginParams {
-  email: string;
-  password: string;
+  email: string
+  password: string
 }
 
 interface ILoginResponse {
-  token: string;
-  userId: string;
+  token: string
+  userId: string
 }
 
 async function login({ password, email }: ILoginParams) {
-  const { data } = await axios.post<ILoginResponse>("/login", {
+  const { data } = await axios.post<ILoginResponse>('/login', {
     password,
-    email,
-  });
-  return data;
+    email
+  })
+  return data
 }
 
 async function getLoggedUser(token?: string | null) {
-  const { data } = await axios.get<IUser>("/v1/users/me", {
-    headers: { Authorization: token ? `Bearer ${token}` : "" },
-  });
-  return data;
+  const { data } = await axios.get<IUser>('/v1/users/me', {
+    headers: { Authorization: token ? `Bearer ${token}` : '' }
+  })
+  return data
 }
 
-const accountServices = { login, getLoggedUser };
+const accountServices = { login, getLoggedUser }
 
-export default accountServices;
+export default accountServices

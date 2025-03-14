@@ -1,1 +1,1 @@
-export { default as RedirectIfAuthenticated } from "./redirect-if-authenticated";
+export { default as RedirectIfAuthenticated } from './redirect-if-authenticated'
