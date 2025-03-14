@@ -43,13 +43,7 @@ function HomePage() {
         phone: form.get("phone") as string,
         company: form.get("company") as string,
       };
-
-      setOptimisticFields({
-        address: fields.address,
-        phone: fields.phone,
-        company: fields.company,
-      });
-
+      setOptimisticFields(fields);
       await updateUser({ id: user?._id, fields });
       await queryClient.refetchQueries({ queryKey: ["user", "me"] });
     } catch (error) {
